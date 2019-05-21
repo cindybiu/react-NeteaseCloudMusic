@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import CSSModules from 'react-css-modules'
 import Header from 'components/header'
 import Slick from 'components/slick'
+import ListItem from 'components/listItem'
+import Iconfont from 'components/iconfont'
+import CoverList from 'components/coverList'
 import styles from './index.scss'
 import { request } from 'apiRequest'
 import daily from 'images/daily.png'
@@ -15,18 +18,10 @@ class Find extends React.Component {
     super(props)
     this.state ={
       banners: [],
-      recommendSongs: []
+      recommendSongs: [],
+      album: [],
+      djprogram: []
     }
-  }
-
-  getPlayCount = (count) => {
-    let palyCount = ''
-    if (count > 100000000) {
-      palyCount =  `${(count / 100000000).toFixed(1)}亿`
-    } else if (count > 10000) {
-      palyCount = `${(count / 10000).toFixed(1)}万`
-    } 
-    return palyCount
   }
 
   renderMenu () {
@@ -55,21 +50,16 @@ class Find extends React.Component {
 
   renderRecommendSongs () {
     const { recommendSongs } = this.state
+    const left = ( <div styleName='title'>推荐歌单</div> )
+    const right = ( <button styleName='button'>歌单广场</button> )
     return (
       <div styleName='block_list_wraper'>
-        <div styleName='list_tile'>
-          <div styleName='title'>推荐歌单</div>
-          <button styleName='button'>歌单广场</button>
-        </div>
+        <ListItem leftContent={left} rightContent={right}></ListItem>
         <div styleName='main'>
           {
             recommendSongs && recommendSongs.slice(0, 6).map((item, index) => {
               return (
-                <div key={index} styleName='item'>
-                  <img styleName='columnImg' src={item.picUrl} alt=""/>
-                  <div styleName='background_wrap'><div styleName='shadow'>{this.getPlayCount(item.playCount)}</div></div>
-                  <span styleName='name'>{item.name}</span>
-                </div>
+                <CoverList data={item} key={index}></CoverList>
               )
             })
           }
@@ -78,13 +68,68 @@ class Find extends React.Component {
     )
   } 
 
+  renderNewAlbum () {
+    const { album } = this.state
+    const left = (
+      <Fragment>
+        <div styleName='title'>新碟</div>
+        <div styleName='line'>|</div>
+        <div styleName='sub_title'>新歌</div>
+      </Fragment>
+    )
+    const right = ( <button styleName='button'>歌单广场</button> )
+    return (
+      <div styleName='block_list_wraper'>
+        <ListItem leftContent={left} rightContent={right}></ListItem>
+        <div styleName='main'>
+          {
+            album && album.slice(0, 3).map((item, index) => {
+              return (
+                <CoverList data={item} key={index}></CoverList>
+              )
+            })
+          }
+        </div>
+      </div>
+    )
+  }
+
+  renderDjprogram () {
+    const { djprogram } = this.state
+    const left = (
+      <Fragment>
+        <div styleName='title'>主播电台</div>
+        <Iconfont cls='iconmore' styleName='title'></Iconfont>
+      </Fragment>
+    )
+    const right = (<Iconfont cls='iconmore1' style={{fontSize: '19px'}}></Iconfont>)
+    return (
+      <div styleName='block_list_wraper'>
+        <ListItem leftContent={left} rightContent={right}></ListItem>
+        <div styleName='main'>
+          {
+            djprogram && djprogram.slice(0, 3).map((item, index) => {
+              return (
+                <CoverList data={item} key={index}></CoverList>
+              )
+            })
+          }
+        </div>
+      </div>
+    )
+  }
+
   render () {
     return (
       <div>
         <Header/>
-        <Slick imgs={this.state.banners}></Slick>
-        {this.renderMenu()}
-        {this.renderRecommendSongs()}
+        <div style={{paddingTop: '55px'}}>
+          <Slick imgs={this.state.banners}></Slick>
+          {this.renderMenu()}
+          {this.renderRecommendSongs()}
+          {this.renderNewAlbum()}
+          {this.renderDjprogram()}
+        </div>
       </div>
     )
   }
@@ -92,9 +137,13 @@ class Find extends React.Component {
   async componentDidMount () {
     const banners = await request.getBanner()
     const recommendSongs = await request.getPersonalized()
+    const album = await request.getAlbum()
+    const djprogram = await request.getDjprogram()
     this.setState({
       banners: banners.banners,
-      recommendSongs: recommendSongs.result
+      recommendSongs: recommendSongs.result,
+      album: album.albums,
+      djprogram: djprogram.result
     })
   }
 }

@@ -6,7 +6,9 @@ const api = 'http://localhost:3000/'
 
 export const request = {
   getBanner,
-  getPersonalized
+  getPersonalized,
+  getAlbum,
+  getDjprogram
 }
 
 // function showToast (msg = 'network_error') {
@@ -36,10 +38,40 @@ async function getBanner () {
   }
 }
 async function getPersonalized () {
-  // 调用此接口 , 可获取推荐歌单
+  // 获取推荐歌单
   try {
     const res = await axios({
       url: api + 'personalized',
+      withCredentials: true, //关键
+      method: 'GET',
+    })
+    if (res.data.code === 200) return res.data || {}
+    return 0
+  } catch (err) {
+    return 0
+  }
+}
+
+async function getAlbum () {
+  // 获取新碟上架列表
+  try {
+    const res = await axios({
+      url: api + 'top/album',
+      withCredentials: true, //关键
+      method: 'GET',
+    })
+    if (res.data.code === 200) return res.data || {}
+    return 0
+  } catch (err) {
+    return 0
+  }
+}
+
+async function getDjprogram () {
+  // 获取推荐电台
+  try {
+    const res = await axios({
+      url: api + 'personalized/djprogram',
       withCredentials: true, //关键
       method: 'GET',
     })

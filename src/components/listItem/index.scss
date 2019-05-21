@@ -1,0 +1,10 @@
+.list_tile {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 5px 10px 9px;
+  align-items: center;
+  .left {
+    display: flex;
+    align-items: center
+  }
+}
