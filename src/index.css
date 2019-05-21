@@ -1,0 +1,125 @@
+@import "./App.css";
+html{
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: sans-serif; 
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #575757
+}
+
+div, p, h1, h2, h3, h4, h5, h6, ul {
+  margin: 0;
+  padding: 0;
+  /* font-weight: 100; */
+}
+
+li {
+  list-style: none;
+}
+
+i {
+  font-style: normal;
+}
+
+#root{
+  width: 100%;
+  height: 100%;
+}
+
+input[type="text"] {
+  -webkit-appearance: none;
+}
+
+input[type="password"] {
+  -webkit-appearance: none;
+}
+
+textarea{
+  -webkit-appearance: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  outline:none;
+  background: none;
+}
+
+.test-span{
+  display: block;
+  width: 50px;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+input::-webkit-input-placeholder {
+  color: #dededf;
+}
+
+textarea::-webkit-input-placeholder {
+  color: #dededf;
+}
+
+::-webkit-scrollbar {/*隐藏滚轮*/
+display: none;
+}
+
+/* 选择年月组件 */
+.Modal-Portal .datepicker.ios {
+  background-color: #fcfcfc;
+}
+.Modal-Portal .datepicker.ios .datepicker-scroll li {
+  color: #5B5B5C;
+  font-size: 16px;
+}
+.Modal-Portal .datepicker.ios .datepicker-navbar {
+  border-bottom: 1px solid #CACACA;
+}
+.Modal-Portal .datepicker.ios .datepicker-navbar-btn {
+  font-size: 14px;
+}
+.Modal-Portal .datepicker.ios .datepicker-wheel {
+  border-top: 1px solid #CACACA;
+  border-bottom: 1px solid #CACACA;
+}
+.Modal-Portal .datepicker.ios .datepicker-viewport::after {
+  background: -webkit-gradient(linear,left top, left bottom,from(#fcfcfc),color-stop(52%, rgba(245, 245, 245, 0)),color-stop(48%, rgba(245, 245, 245, 0)),to(#fcfcfc));
+  background: linear-gradient(#fcfcfc,rgba(245, 245, 245, 0)52%,rgba(245, 245, 245, 0)48%,#fcfcfc);
+}
+
+/* home-page */
+
+.slick-slide img {
+  transform: scale(0.86) !important;
+  transition: all .3s ease;
+}
+.slick-current img {
+  transform: scale(1.1) !important;
+  transition: all .3s ease;
+}
+.headerColor {
+  background: #F3F4F6 !important
+}
+.slick-dots{
+  bottom: 5px;
+}
+.slick-dots li button:before {
+  color: #fff;
+}
+.slick-dots li {
+  width: 12px;
+}

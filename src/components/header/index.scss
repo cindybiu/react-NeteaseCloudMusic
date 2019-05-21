@@ -1,0 +1,27 @@
+.header_wraper{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 10px;
+  .icon {
+    font-size: 20px;
+  }
+  .left, .right {
+    width: 20%;
+  }
+  .right{
+    text-align: right
+  }
+  .middle {
+    width: 55%;
+    justify-content: space-between;
+    display: flex;
+    font-size: 16px;
+    color: #868686;
+    align-items: flex-end;
+  }
+  .active{
+    font-size: 18px;
+    color: #3A3A3A;
+    font-weight: bold;
+  }
+}

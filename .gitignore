@@ -1,0 +1,12 @@
+node_modules/
+build/
+yarn.lock
+yarn-error
+yarn-error.log
+package-lock.json
+cordova/platforms/
+!cordova/platforms/ios/**/Images.xcassets
+cordova/plugins/
+cordova/www/
+.DS_Store
+.idea
