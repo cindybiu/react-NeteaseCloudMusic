@@ -121,8 +121,8 @@ class Find extends React.Component {
 
   render () {
     return (
-      <div>
-        <Header/>
+      <Fragment>
+        <Header tabId={1}/>
         <div style={{paddingTop: '55px'}}>
           <Slick imgs={this.state.banners}></Slick>
           {this.renderMenu()}
@@ -130,7 +130,7 @@ class Find extends React.Component {
           {this.renderNewAlbum()}
           {this.renderDjprogram()}
         </div>
-      </div>
+      </Fragment>
     )
   }
 
