@@ -9,9 +9,9 @@ import { PersistGate } from 'redux-persist/integration/react'
 import 'lib-flexible'
 import FastClick from 'fastclick'
 import windowOnListener from './windowOnListener'
-import envConfig from 'apiConfig'
+// import envConfig from 'apiConfig'
 
-const { env } = envConfig
+// const { env } = envConfig
 
 if ('addEventListener' in document) {
   document.addEventListener('DOMContentLoaded', function () {
@@ -26,10 +26,10 @@ if (process.env.NODE_ENV === 'production') {
     '8cbffc3c15fb56567aa0b85694c1b30d080f4c931d24cf628b195e381efaea9a'
 }
 
-if (env === 'test') {
-  const VConsole = require('../node_modules/vconsole/dist/vconsole.min.js')
-  new VConsole() //开发模式下开启调试工具
-}
+// if (env === 'test') {
+//   const VConsole = require('../node_modules/vconsole/dist/vconsole.min.js')
+//   new VConsole() //开发模式下开启调试工具
+// }
 
 ReactDOM.render(
   <Provider store={store}>

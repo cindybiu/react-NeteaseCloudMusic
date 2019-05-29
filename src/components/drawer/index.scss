@@ -1,0 +1,139 @@
+.drawer_wraper {
+  height: 100%;
+  position: absolute;
+  width: 80%;
+  background: #ededed;
+  z-index: 4;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+  .header_wraper {
+    height: 210px;
+    background: #ececec;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: #959595;
+    position: relative;
+    button {
+      margin-top: 20px;
+      background: none;
+      border: 1px solid #c3c3c3;
+      border-radius: 10px;
+      padding: 5px 15px;
+      color: #4a4949;
+    }
+  }
+  .banner_wraper {
+    background: linear-gradient(to right, black, #383838);
+    width: 87%;
+    position: absolute;
+    bottom: -15%;
+    padding: 14px;
+    border-radius: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .title {
+      font-size: 13px;
+      color: #f8e1db;
+      font-weight: bold;
+      padding-bottom: 5px;
+    }
+    .line {
+      height: 30px;
+      width: 2px;
+      background: #626262;
+    }
+    .bannerImg {
+      width: 25px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-left: 7px;
+      img {
+        width: 100%;
+        vertical-align: top;
+      }
+    }
+    .banner_right {
+      display: flex;
+      width: 130px;
+      justify-content: flex-end;
+      align-items: center;
+      color: #dededf;
+    }
+  }
+  .menu_wraper {
+    display: flex;
+    padding: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f7f7f7;
+    padding-top: 50px;
+    justify-content: space-between;
+    background: #fff;
+    .icon {
+      color: #ea4c48;
+      font-size: 22px;
+    }
+    .item {
+      margin: 5px 0px;
+      position: relative;
+      text-align: center;
+      .title {
+        color: #575757;
+        padding-top: 6px;
+        text-align: center;
+        font-size: 12px;
+      }
+    }
+  }
+  .option_wraper {
+    padding: 16px;
+    background: #fff;
+    height: 250px;
+    .list {
+      display: flex;
+      font-size: 13px;
+      padding: 12px 0px;
+      align-items: center;
+    }
+    .icon {
+      padding-right: 10px;
+      font-size: 16px;
+    }
+  }
+  .buttom_wraper {
+    display: flex;
+    background: #fff;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    justify-content: space-between;
+    padding: 5px 16px;
+    .list {
+      text-align: center;
+      display: flex;
+      padding: 8px;
+      .icon {
+        padding-right: 5px;
+      }
+    }
+  }
+  span {
+    padding-top: 8px;
+  }
+}
+.drawer_open {
+  transform: translateX(0%);
+}
+.drawer_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  transition: opacity 0.5s ease-out;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}

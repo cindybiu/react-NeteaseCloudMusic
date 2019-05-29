@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import CSSModules from 'react-css-modules'
 import Iconfont from 'components/iconfont'
+import Drawer from 'components/drawer'
 import { Link } from 'react-router-dom'
 import styles from './index.scss'
 
@@ -15,11 +16,6 @@ class Header extends React.Component {
     showDrawer: false
   }
 
-  hideDrawer = () => {
-    this.setState({
-      showDrawer: false
-    })
-  }
   renderHeader () {
     const { tabId } = this.props
     return (
@@ -27,7 +23,7 @@ class Header extends React.Component {
         <div styleName='left'>
           <Iconfont styleName='icon' cls='iconzhedie' onClick={(event) => {   
             event.nativeEvent.stopImmediatePropagation()
-            this.setState({showDrawer: !this.state.showDrawer})
+            this.setState({showDrawer: true})
           } }></Iconfont>
         </div>
         <div styleName='middle'>
@@ -46,30 +42,15 @@ class Header extends React.Component {
       </div>
     )
   }
-
-  renderDrawer () {
-    const { showDrawer } = this.state
-    return (
-      showDrawer && 
-      <Fragment>
-        <div styleName='drawer_wraper'>2222</div>
-        <div></div>
-      </Fragment>
-    )
-  }
-
+  
   render () {
     return (
       <Fragment>
         { this.renderHeader() }
-        { this.renderDrawer() }
+        <Drawer open={this.state.showDrawer}></Drawer>
       </Fragment>
      
     )
-  }
-
-  componentDidMount () {
-    document.addEventListener('click', this.hideDrawer)
   }
 }
 

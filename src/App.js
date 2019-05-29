@@ -10,6 +10,7 @@ import Find from './containers/find'
 import My from './containers/my'
 import Friends from './containers/friends'
 import Video from './containers/video'
+import Login from './pages/login'
 
 class App extends Component {
 
@@ -31,6 +32,7 @@ class App extends Component {
             <Route exact path="/my" component={My} />
             <Route exact path="/friends" component={Friends} />
             <Route exact path="/video" component={Video} />
+            <Route exact path="/login" component={Login} />
           </Switch>
         </Router>
       </div>

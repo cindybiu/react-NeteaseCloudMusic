@@ -21,7 +21,7 @@ class Slick extends React.Component {
         <Slider {...defaultSettings}>
           {
             imgs && imgs.map((item, index) => {
-              return <img key={index}  alt='' src={item.pic} onClick={() => this.open(item.url)} />
+              return <img key={index}  alt='' src={item.pic} />
             })
           }
         </Slider>
