@@ -27,10 +27,11 @@ class Header extends React.Component {
       <div className={`${cls}`} styleName="header">
         <div styleName="header-left">
           { this.renderHeaderContent(leftContent) }
+          <div styleName="title">
+            { this.renderHeaderContent(titleContent) }
+          </div>
         </div>
-        <div styleName="header-title">
-          { this.renderHeaderContent(titleContent) }
-        </div>
+        
         <div styleName="header-right">
           { this.renderHeaderContent(rightContent) }
         </div>

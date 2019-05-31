@@ -8,20 +8,9 @@ export const request = {
   getBanner,
   getPersonalized,
   getAlbum,
-  getDjprogram
+  getDjprogram,
+  login
 }
-
-// function showToast (msg = 'network_error') {
-//   store.dispatch(actions.showToastIndication(msg))
-// }
-
-// function showLoading () {
-//   store.dispatch(actions.showLoading())
-// }
-
-// function hideLoading () {
-//   store.dispatch(actions.hideLoading())
-// }
 
 async function getBanner () {
   // 获取订单记录模拟数据
@@ -74,6 +63,23 @@ async function getDjprogram () {
       url: api + 'personalized/djprogram',
       withCredentials: true, //关键
       method: 'GET',
+    })
+    if (res.data.code === 200) return res.data || {}
+    return 0
+  } catch (err) {
+    return 0
+  }
+}
+
+
+async function login (params) {
+  // 手机登录
+  try {
+    const res = await axios({
+      url: api + 'login/cellphone',
+      withCredentials: true, //关键
+      method: 'GET',
+      params
     })
     if (res.data.code === 200) return res.data || {}
     return 0

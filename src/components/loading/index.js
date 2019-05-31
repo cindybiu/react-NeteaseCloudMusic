@@ -6,13 +6,12 @@ import styles from './index.scss'
 
 class LoadingIndicator extends Component {
   render () {
-    const { loadingText = this.props.language['requesting'] } = this.props
     
     return (
       <div styleName='loader-bg'>
         <div styleName="loader-box">
           <div styleName="loader-content"></div>
-          <span styleName='loading-text'>{loadingText}</span>
+          <span styleName='loading-text'>数据请求中...</span>
         </div>
       </div>
     )
