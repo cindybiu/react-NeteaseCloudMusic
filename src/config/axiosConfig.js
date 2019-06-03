@@ -2,7 +2,7 @@
  * Created by luwenwe on 2017/10/11.
  */
 import axios from 'axios'
-import { store } from '../store'
+// import { store } from '../store'
 
 class MyAxios {
   constructor () {
@@ -30,15 +30,14 @@ class MyAxios {
         return res
       },
       error => {
-        const language = store.getState().appState.language
         if (error.response && (error.response.status === 401 || error.response.status === 403)) {
           window.location.href = '#/login'
           return Promise.reject(error)
         }
         if (!error.response) {
-          error.response = { data: {message: language['network_error']} }
+          error.response = { data: {message: '网络错误'} }
         } else if (error.response && error.response.status > 500) {
-          error.response.data = {message: language['network_error']}
+          error.response.data = {message: '网络错误'}
         }
         return Promise.reject(error)
       },

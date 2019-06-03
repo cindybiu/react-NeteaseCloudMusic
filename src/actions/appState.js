@@ -22,23 +22,14 @@ export const appStateActions = {
   updatePassword,
   registerOk,
   cancelUpgradeVersion,
-  showPasswordDialog,
-  hidePasswordDialog,
   updatePayPassword,
   updateLoginPassword,
   resetLoginPassword,
   verifyPayPassword,
   forgetPayPassword,
-  createUserWallet,
-  getUserWalletInfo,
-  setUserWalletInfo,
-  updateCanpay, //已设置交易密码
   isLoading,
-  getLatestVersion, //获取最新版本信息
   setVersionMsg,
   getUserInfo,
-  switchLanguage,
-  setLocale,
 }
 
 function showLoading (message) {
@@ -66,14 +57,6 @@ function hideLoading () {
   }
 }
 
-function updateCanpay () {
-  return dispatch => {
-    dispatch({
-      type: 'SET_CANPAY_TRUE'
-    })
-  }
-}
-
 function updateUserInfo (data) {
   return dispatch => {
     dispatch({
@@ -89,35 +72,8 @@ function clearUserInfo () {
       type: 'CLEAR_USERINFO'
     })
     dispatch({
-      type: 'CLEAR_USER_WALLET_INFO'
-    })
-    dispatch({
       type: 'SET_STORE_USERINFO',
       data: {}
-    })
-    dispatch({
-      type: 'SET_IDA_USERINFO',
-      data: {}
-    })
-    dispatch({
-      type: 'SET_IDA_USER_WALLET_INFO',
-      data: {}
-    })
-  }
-}
-
-function showPasswordDialog () {
-  return dispatch => {
-    dispatch({
-      type: 'SHOW_PWD_DIALOG'
-    })
-  }
-}
-
-function hidePasswordDialog () {
-  return dispatch => {
-    dispatch({
-      type: 'HIDE_PWD_DIALOG'
     })
   }
 }
@@ -180,7 +136,6 @@ function login (config) {
 
             const cookie = new Cookies()
             const cookieMaxAge = customerConfig.cookieMaxAge //比后端短10s
-            dispatch(appStateActions.getUserWalletInfo(res.data.data)) //登录成功后获取用户钱包信息
             dispatch(appStateActions.userInfo(res.data.data))
             cookie.set('token', res.data.data.token, { path: '/', maxAge: cookieMaxAge})
             return resolve(res)
@@ -480,50 +435,6 @@ function forgetPayPassword (url, data, token) {
   }
 }
 
-function createUserWallet (token) {
-  return async (dispatch) => {
-    try {
-      let res = await axios({
-        url: apiPrefix + 'walletandtoken/api/v1/eth/wallet',
-        method: 'POST',
-        token: false,
-        headers: {
-          Authorization: token
-        }
-      })
-      if (!res.data.success) return
-      dispatch(appStateActions.setUserWalletInfo(res.data.data))
-    } catch (err) {
-      console.error(err)
-    }
-  }
-}
-
-function setUserWalletInfo (data) {
-  return {
-    type: 'SET_USER_WALLET_INFO',
-    data,
-  }
-}
-
-function getUserWalletInfo (userData) {
-  const { id, token } = userData
-  return async (dispatch) => {
-    try {
-      let res = await axios({
-        url: apiPrefix + 'walletandtoken/api/v1/wallets/query',
-        method: 'GET',
-        params: {user_id: id}
-      })
-      if (!res.data.success || !res.data.data.count) { //如果用户是第一次注册登录，则给他创建钱包
-        return dispatch(appStateActions.createUserWallet(token))
-      }
-      dispatch(appStateActions.setUserWalletInfo(res.data.data.rows[0]))
-    } catch (err) {
-      console.error(err)
-    }
-  }
-}
 
 function isLoading (data) {
   return dispatch => {
@@ -531,35 +442,6 @@ function isLoading (data) {
       type: 'IS_LOADING',
       data,
     })
-  }
-}
-
-function getLatestVersion () {
-  return async (dispatch) => {
-    try {
-      let res = await axios({
-        url: apiPrefix + 'wallet_system/api/v1/version',
-        method: 'GET',
-        params: {order: '-created_at'},
-        token: false
-      })
-      console.log('version:' + window.now_version)
-      let lastestVersion = (res.data.data && res.data.data.results[0]) || {}
-      if (
-        lastestVersion.version &&
-        lastestVersion.version !== window.now_version //有新版本
-      ) {
-        dispatch(appStateActions.setVersionMsg(lastestVersion)) //把最新的版本信息存储在redux里
-        setTimeout(() => {
-          dispatch(appStateActions.switchVersionModalStatus(true)) //展示版本更新提示modal
-        }, 500)
-        return true
-      }
-      return false
-    } catch (err) {
-      console.error(err)
-      return false
-    }
   }
 }
 
@@ -585,22 +467,5 @@ function getUserInfo (params) {
     } catch (err) {
       console.error(err)
     }
-  }
-}
-
-function switchLanguage (data) {
-  return {
-    type: 'SWITCH_LANGUAGE',
-    data
-  }
-}
-
-function setLocale (data) {
-  return (dispatch) => {
-    dispatch(appStateActions.switchLanguage(data))
-    dispatch({
-      type: 'SET_LOCALE',
-      data
-    })
   }
 }

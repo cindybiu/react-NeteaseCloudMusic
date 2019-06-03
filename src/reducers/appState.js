@@ -1,7 +1,4 @@
-import { language } from '../locales'
-import { utils } from 'tools'
 
-const userMobileLanguage = utils.getUserMobileLanguage()
 const initialState = {
   sidebarOpen: false,
   showPwdDialog: false,
@@ -20,7 +17,6 @@ const initialState = {
   versionMsg: {}, //版本信息
   announcementMsg: {}, //公告信息
   userAssets: [], //用户资产
-  language: language[userMobileLanguage],
   carousels: [], //轮播图数据,
   announcementText: '', //停服公告内容
   storeSearchParams: null,
@@ -90,9 +86,6 @@ export default function appState (state = initialState, action) {
     case 'IS_LOADING':
       return { ...state, isLoading: action.data }
 
-    case 'SWITCH_LANGUAGE':
-      return { ...state, language: language[action.data]}
-    
     case 'SET_CAROUSELS':
       return { ...state, carousels: action.data }
 

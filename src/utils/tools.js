@@ -125,8 +125,8 @@ function div (a, b, toString = true) {
 function getTimeDescript (time, language) {
   let hoursAndMinutes = moment(time).format('HH:mm')
   let hours = hoursAndMinutes.split(':')
-  if (+hours[0] <= 12) return `${language['am']} ${hoursAndMinutes}`
-  return `${language['pm']} ${(+hours[0] - 12)}:${hours[1]}`
+  if (+hours[0] <= 12) return `${'上午'} ${hoursAndMinutes}`
+  return `${'下午'} ${(+hours[0] - 12)}:${hours[1]}`
 }
 
 function getIntervalTime (intervalTime, createTime, currentYears) {

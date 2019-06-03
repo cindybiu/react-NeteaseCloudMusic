@@ -4,15 +4,17 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Loadable from 'react-loadable'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import Loading from 'components/loading'
 import Toaster from 'components/toaster'
-import Find from './containers/find'
-import My from './containers/my'
-import Friends from './containers/friends'
-import Video from './containers/video'
 import Login from './pages/login'
 
+const loadableDefalutConfig = {loading: Loading, delay: 4000, timeout: 10000}
+const Find = Loadable({loader: () => import('./containers/find'), ...loadableDefalutConfig})
+const My = Loadable({loader: () => import('./containers/my'), ...loadableDefalutConfig})
+const Friends = Loadable({loader: () => import('./containers/friends'), ...loadableDefalutConfig})
+const Video = Loadable({loader: () => import('./containers/video'), ...loadableDefalutConfig})
 class App extends Component {
 
   componentWillMount () {
