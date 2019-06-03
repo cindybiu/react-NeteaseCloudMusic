@@ -16,6 +16,12 @@ class Header extends React.Component {
     showDrawer: false
   }
 
+  hideDrawer = (data) => {
+    this.setState({
+      showDrawer: data
+    })
+  }
+
   renderHeader () {
     const { tabId } = this.props
     return (
@@ -47,7 +53,7 @@ class Header extends React.Component {
     return (
       <Fragment>
         { this.renderHeader() }
-        <Drawer open={this.state.showDrawer}></Drawer>
+        <Drawer open={this.state.showDrawer} hideDrawer={this.hideDrawer}></Drawer>
       </Fragment>
      
     )

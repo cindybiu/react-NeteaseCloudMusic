@@ -1,5 +1,8 @@
 import React, { Fragment } from 'react'
 import CSSModules from 'react-css-modules'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
+import { withRouter } from 'react-router-dom'
 import styles from './index.scss'
 import bannerImg from 'images/banner.jpg'
 import { Link } from 'react-router-dom'
@@ -11,6 +14,7 @@ class Drawer extends React.Component {
   }
 
   hideDrawer = () => {
+    this.props.hideDrawer(false)
     this.setState({
       showDrawer: false
     })
@@ -21,18 +25,41 @@ class Drawer extends React.Component {
   }
 
   renderHeader () {
+    const { userInfo } = this.props
     // 头部登录信息
     return (
       <div styleName="header_wraper">
-        <span>登录网易云音乐</span>
-        <span>手机电脑多端同步，尽享海量高品质音乐</span>
-        <Link to={`/login`}> <button>立即登录</button></Link>
+        {
+          userInfo.id ?
+            <Fragment>
+              <div style={{width: '85%'}}>
+                <div styleName='headImg'>
+                  <img src={userInfo.avatarUrl} alt="head"/>
+                </div>
+                <div styleName='bottom'>
+                  <div style={{display: 'flex'}}> {userInfo.nickname}
+                    <div styleName='level'>Lv.{userInfo.level}</div>
+                  </div>
+                
+                  <button styleName='sign'><IconFont cls='iconjifen' styleName='icon'></IconFont>签到</button>
+                </div>
+              </div>
+            </Fragment>
+            :
+            <Fragment>
+              <span>登录网易云音乐</span>
+              <span>手机电脑多端同步，尽享海量高品质音乐</span>
+              <Link to={`/login`}> <button>立即登录</button></Link>
+            </Fragment>
+        }
+        
         {this.renderBanner()}
       </div>
     )
   }
 
   renderBanner () {
+
     return (
       <div styleName="banner_wraper">
         <div>
@@ -97,13 +124,15 @@ class Drawer extends React.Component {
     const data = [
       {cls: 'iconyueliang', title: '夜间模式'},
       {cls: 'iconshezhi', title: '设置'},
-      {cls: 'icontuichu', title: '退出'},
+      {cls: 'icontuichu', title: '退出', url: '/login'},
     ]
     return (
       <div styleName='buttom_wraper'>
         {data.map((item, index) => {
           return (
-            <div key={index} styleName='list'>
+            <div key={index} styleName='list' onClick={() => {
+              item.url && this.props.history.push(item.url)
+            }}>
               <IconFont cls={item.cls} styleName='icon'></IconFont>
               <div>{item.title}</div>
             </div>
@@ -141,5 +170,12 @@ class Drawer extends React.Component {
   }
 }
 
+function mapStateToProps (state) {
+  return {
+    userInfo: state.global.userInfo
+  }
+}
+
+
 const Wrapper = CSSModules(Drawer, styles, { allowMultiple: true })
-export default Wrapper
+export default compose(withRouter, connect(mapStateToProps))(Wrapper)

@@ -9,7 +9,8 @@ export const request = {
   getPersonalized,
   getAlbum,
   getDjprogram,
-  login
+  login,
+  getUserInfo
 }
 
 async function getBanner () {
@@ -80,6 +81,24 @@ async function login (params) {
       withCredentials: true, //关键
       method: 'GET',
       params
+    })
+    if (res.data.code === 200) return res.data || {}
+    return 0
+  } catch (err) {
+    return 0
+  }
+}
+
+async function getUserInfo (id) {
+  // 手机登录
+  try {
+    const res = await axios({
+      url: api + 'user/detail',
+      withCredentials: true, //关键
+      method: 'GET',
+      params: {
+        uid: id
+      }
     })
     if (res.data.code === 200) return res.data || {}
     return 0

@@ -33,7 +33,7 @@ class Login extends React.Component {
 
   onLogin = async () => {
     const { user, passwd } = this.state
-    const { showToastIndication } = this.props 
+    const { showToastIndication, setUserInfo } = this.props 
     const params = {
       phone: user,
       password: passwd
@@ -42,6 +42,14 @@ class Login extends React.Component {
     if (!res) { 
       showToastIndication('账号或者密码错误') 
     } else {
+      const userInfo = await request.getUserInfo(res.account.id)
+      const userStore = { // 获取用户信息
+        id: userInfo.userPoint.userId,
+        nickname: userInfo.profile.nickname,
+        level: userInfo.level,
+        avatarUrl: userInfo.profile.avatarUrl,
+      } 
+      setUserInfo(userStore)
       return this.props.history.push('/')
     }
   }
@@ -67,6 +75,11 @@ class Login extends React.Component {
       </PaygeLayout>
     )
   }
+
+  componentWillMount () {
+    const { clearUserInfo } = this.props
+    clearUserInfo()
+  }
 }
 let mapStateToProps = () => {
   return {
@@ -76,7 +89,9 @@ let mapStateToProps = () => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
-    showToastIndication: (msg) => dispatch(actions.showToastIndication(msg))
+    showToastIndication: (msg) => dispatch(actions.showToastIndication(msg)),
+    setUserInfo: (data) => dispatch(actions.setUserInfo(data)),
+    clearUserInfo: () => dispatch(actions.clearUserInfo()),
   }
 }
 

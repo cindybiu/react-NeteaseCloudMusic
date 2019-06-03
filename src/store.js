@@ -22,7 +22,7 @@ if (env === 'test') middleware.push(logger)
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['mockingbird'], // 白名单
+  whitelist: ['global'], // 白名单
   blacklist: ['appState'], // 黑名单
   version: 1, // 版本
   debug: false,

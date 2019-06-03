@@ -1,20 +1,15 @@
 import axios from '../config/axiosConfig'
-import { Cookies } from 'react-cookie'
-import customerConfig from '../config/customer'
-
-const { apiPrefix } = customerConfig
 
 export const appStateActions = {
   showToastIndication,
   hideToastIndication,
   showLoading,
   hideLoading,
-  updateUserInfo,
+  setUserInfo,
   clearUserInfo,
-  login,
+
+  updateUserInfo,
   register,
-  getUserinfo,
-  userInfo,
   getbackPassword,
   verifyCode,
   getCheckCode,
@@ -29,7 +24,6 @@ export const appStateActions = {
   forgetPayPassword,
   isLoading,
   setVersionMsg,
-  getUserInfo,
 }
 
 function showLoading (message) {
@@ -57,12 +51,10 @@ function hideLoading () {
   }
 }
 
-function updateUserInfo (data) {
-  return dispatch => {
-    dispatch({
-      type: 'UPDATE_USERINFO',
-      value: data
-    })
+function setUserInfo (userInfo) {
+  return {
+    type: 'LOGIN',
+    data: userInfo
   }
 }
 
@@ -77,6 +69,16 @@ function clearUserInfo () {
     })
   }
 }
+
+function updateUserInfo (data) {
+  return dispatch => {
+    dispatch({
+      type: 'UPDATE_USERINFO',
+      value: data
+    })
+  }
+}
+
 
 // toast add by zjs
 function showToastIndication (toastMsg, time = 2000, position, style) {
@@ -125,33 +127,6 @@ function hideToastIndication () {
   }
 }
 
-function login (config) {
-  return dispatch => {
-    return new Promise((resolve, reject) => {
-      axios(config)
-        .then(async res => {
-          if (res.data.success) {
-            const storeLoginRes = await dispatch(appStateActions.storeLogin(config.data.email, config.data.password))
-            if (!storeLoginRes) return reject({data: {message: '登录失败'}})
-
-            const cookie = new Cookies()
-            const cookieMaxAge = customerConfig.cookieMaxAge //比后端短10s
-            dispatch(appStateActions.userInfo(res.data.data))
-            cookie.set('token', res.data.data.token, { path: '/', maxAge: cookieMaxAge})
-            return resolve(res)
-          } else {
-            console.log(res)
-            return reject(res)
-          }
-        })
-        .catch(err => {
-          console.error(err)
-          return reject(err)
-        })
-    })
-  }
-}
-
 function register (url, data) {
   return dispatch => {
     return new Promise((resolve, reject) => {
@@ -173,31 +148,6 @@ function register (url, data) {
           return reject(err)
         })
     })
-  }
-}
-
-function getUserinfo (url, params) {
-  return dispatch => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const res = await axios({
-          url,
-          params,
-          token: false
-        })
-        return resolve(res)
-      } catch (err) {
-        dispatch(appStateActions.showToastIndication('network_error', 'center'))
-        return reject(false)
-      }
-    })
-  }
-}
-
-function userInfo (userInfo) {
-  return {
-    type: 'LOGIN',
-    data: userInfo
   }
 }
 
@@ -449,23 +399,5 @@ function setVersionMsg (data) {
   return {
     type: 'SET_VERSION_MSG',
     data
-  }
-}
-
-function getUserInfo (params) {
-  return async dispatch => {
-    try {
-      let res = await axios({
-        url: apiPrefix + 'account/api/v1/find/account',
-        method: 'GET',
-        params,
-        token: false,
-      })
-      if (res.data.success) {
-        dispatch(appStateActions.updateVerification(res.data.data.verification)) //更新用户认证等级
-      }
-    } catch (err) {
-      console.error(err)
-    }
   }
 }

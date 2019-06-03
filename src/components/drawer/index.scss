@@ -1,6 +1,6 @@
 .drawer_wraper {
   height: 100%;
-  position: absolute;
+  position: fixed;
   width: 80%;
   background: #ededed;
   z-index: 4;
@@ -15,6 +15,44 @@
     align-items: center;
     color: #959595;
     position: relative;
+    .headImg {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: hidden;
+      img {
+        width: 100%;
+      }
+    }
+    .bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 7px;
+      font-size: 15px;
+      color: #000;
+    }
+    .level {
+      color: #b5b5b5;
+      font-size: 12px;
+      font-style: italic;
+      background: #deddd8;
+      padding:0px 8px 0px 6px;
+      border-radius: 9px;
+      margin-left: 6px;
+      font-weight: bold;
+    }
+    .sign {
+      margin-top: 0px;
+      background: #ea4c48;
+      color: #f7f7f7;
+      border: none;
+      font-size: 12px;
+      .icon {
+        font-size: 12px;
+        padding-right: 5px;
+      }
+    }
     button {
       margin-top: 20px;
       background: none;
@@ -127,7 +165,7 @@
   transform: translateX(0%);
 }
 .drawer_overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
