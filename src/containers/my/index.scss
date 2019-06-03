@@ -1,0 +1,27 @@
+.topList_wraper {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  color: #afafaf;
+  border-bottom: 1px solid #f3f4f6;
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .iconBg {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(to right, #ff5a4c, #FF1D12);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      margin-bottom: 9px;
+      .icon {
+        font-size: 22px;
+        font-weight: bold;
+      }
+    }
+  }
+}

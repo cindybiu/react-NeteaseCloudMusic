@@ -7,10 +7,10 @@
   transform: translateX(-100%);
   transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
   .header_wraper {
-    height: 210px;
+    height:5rem;
     background: #ececec;
     display: flex;
-    justify-content: center;
+    padding-top: 30px;
     flex-direction: column;
     align-items: center;
     color: #959595;
@@ -64,10 +64,10 @@
   }
   .banner_wraper {
     background: linear-gradient(to right, black, #383838);
-    width: 87%;
+    width: 92%;
     position: absolute;
     bottom: -15%;
-    padding: 14px;
+    padding: 10px;
     border-radius: 7px;
     display: flex;
     justify-content: space-between;
