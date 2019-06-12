@@ -36,12 +36,13 @@ class My extends React.Component {
   }
 
   renderMenu () {
+    const { subcount } = this.state
     const list = [
       { title: '本地音乐', cls: 'iconyinle2', number: 0 },
       { title: '本地播放', cls: 'iconbofang1', number: 0 },
       { title: '下载管理', cls: 'iconxiazai', number: 0 },
-      { title: '我的电台', cls: 'iconyinle', number: '-'},
-      { title: '我的收藏', cls: 'iconshoucang', number: '-'},
+      { title: '我的电台', cls: 'iconyinle', number: subcount.djRadioCount || 0},
+      { title: '我的收藏', cls: 'iconshoucang', number: (subcount.artistCount + subcount.newProgramCount) || 0},
     ]
     return (
       <div styleName='menu_wraper'>
@@ -60,6 +61,21 @@ class My extends React.Component {
     )
   }
 
+  renderMyPlaylist () {
+    const { subcount } = this.state
+    return (
+      <div>
+        <div>
+          <div>
+            <IconFont cls='iconmore'></IconFont>
+            <div>创建的歌单({subcount.createdPlaylistCount})</div>
+          </div>
+
+        </div>
+      </div>
+    )
+  }
+
   render () {
     return (
       <Fragment>
@@ -67,6 +83,7 @@ class My extends React.Component {
         <div styleName='page_wraper'>
           {this.renderTopList()}
           {this.renderMenu()}
+          {this.renderMyPlaylist()}
         </div>
       </Fragment>
     )
@@ -75,6 +92,8 @@ class My extends React.Component {
   async componentDidMount () {
     const { userInfo } = this.props
     const subcount = await request.getUserSubcount(userInfo.id)
+    const test = await request.test()
+    console.log(test)
     this.setState({
       subcount
     })

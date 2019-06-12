@@ -124,7 +124,7 @@ class Drawer extends React.Component {
     const data = [
       {cls: 'iconyueliang', title: '夜间模式'},
       {cls: 'iconshezhi', title: '设置'},
-      {cls: 'icontuichu', title: '退出', url: '/login'},
+      {cls: 'icontuichu', title: '退出', url: '/loginOut'},
     ]
     return (
       <div styleName='buttom_wraper'>

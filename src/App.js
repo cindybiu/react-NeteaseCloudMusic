@@ -9,6 +9,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import Loading from 'components/loading'
 import Toaster from 'components/toaster'
 import Login from './pages/login'
+import LoginOut from './pages/login/loginOut'
 
 const loadableDefalutConfig = {loading: Loading, delay: 4000, timeout: 10000}
 const Find = Loadable({loader: () => import('./containers/find'), ...loadableDefalutConfig})
@@ -39,6 +40,7 @@ class App extends Component {
             <Route exact path="/friends" component={Friends} />
             <Route exact path="/video" component={Video} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/loginOut" component={LoginOut} />
           </Switch>
         </Router>
       </div>

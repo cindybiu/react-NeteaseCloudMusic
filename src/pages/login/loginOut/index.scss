@@ -1,0 +1,51 @@
+.page_wraper {
+  height: 100%;
+  background: #df3325;
+  width: 100%;
+  text-align: center;
+  .logo_wraper{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #E10201;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 100px;
+    img{
+      width: 80%;
+    }
+  }
+  .button_wraper{
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    button{
+      width: 250px;
+    border: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 24px;
+    }
+    .login{
+      background: #fff;
+      color: #E10201
+    }
+    .free{
+      background: none;
+      border:1px solid #fff;
+      color: #fff;
+    }
+  }
+}
+.title_wraper{
+  width: 100%;
+  padding: 20px 80px;
+  img{
+    width: 100%;
+  }
+}
