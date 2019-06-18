@@ -14,11 +14,10 @@ export const request = {
   getUserInfo,
   getUserSubcount,
   logout,
-  test
 }
 
 async function getBanner () {
-  // 获取订单记录模拟数据
+  // 获取banner
   try {
     const res = await axios({
       url: api + 'banner?type=1',
@@ -130,7 +129,7 @@ async function getUserSubcount (id) {
 }
 
 async function logout (id) {
-  // 手机登录
+  // 退出登录
   try {
     const res = await axios({
       url: api + 'logout',
@@ -147,30 +146,5 @@ async function logout (id) {
     return 0
   } catch (err) {
     return 0
-  }
-}
-
-
-
-//获取商城首页数据
-async function test (params) {
-  const formData = {
-    addr: '1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P',
-    page: 2
-  }
-  try {
-    const res = await axios({
-      url: 'https://api.omniexplorer.info/v1/transaction/address',
-      method: 'POST',
-      params,
-      data: formData,
-      store: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    return res.data.view.data
-  } catch (err) {
-    return null
   }
 }

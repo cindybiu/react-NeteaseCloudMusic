@@ -7,7 +7,14 @@ import { request } from 'apiRequest'
 import styles from './index.scss'
 class My extends React.Component {
   state = {
-    subcount: {}
+    subcount: {},
+    isOpen: true
+  }
+
+  openPlayList = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
   }
 
   renderTopList () {
@@ -62,15 +69,37 @@ class My extends React.Component {
   }
 
   renderMyPlaylist () {
-    const { subcount } = this.state
+    const { subcount, isOpen } = this.state
     return (
-      <div>
-        <div>
-          <div>
-            <IconFont cls='iconmore'></IconFont>
-            <div>创建的歌单({subcount.createdPlaylistCount})</div>
+      <div styleName='playList_wraper'>
+        <div styleName='item_head'>
+          <div styleName='left' onClick={this.openPlayList}>
+            <IconFont cls={`${isOpen ?'iconarrow-down':'iconmore' }`}></IconFont>
+            <div styleName='title'>创建的歌单
+              <span  styleName='total'>{`(${subcount.createdPlaylistCount || 0 })`}</span>
+            </div>
           </div>
+          <div>
+            <IconFont cls='iconmore1'></IconFont>
+          </div>
+        </div>
 
+        <div styleName={`drawer_wraper ${isOpen? '' : 'close'}`}>
+          <div styleName='info_left'>
+            <div styleName='bg'>
+              <IconFont cls='iconaixin' styleName='icon'></IconFont>
+            </div>
+            <div>
+              <div styleName='title'>我喜欢的音乐</div>
+              <div styleName='total'>0首</div>
+            </div>
+          </div>
+          <div>
+            <button>
+              <IconFont cls='iconaixinfengxian1' ></IconFont>
+              <span>心动模式</span>
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -92,8 +121,6 @@ class My extends React.Component {
   async componentDidMount () {
     const { userInfo } = this.props
     const subcount = await request.getUserSubcount(userInfo.id)
-    const test = await request.test()
-    console.log(test)
     this.setState({
       subcount
     })
