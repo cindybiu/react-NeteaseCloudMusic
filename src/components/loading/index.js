@@ -20,7 +20,6 @@ class LoadingIndicator extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    language: state.appState.language
   }
 }
 

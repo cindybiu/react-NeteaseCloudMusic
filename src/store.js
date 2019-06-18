@@ -1,20 +1,18 @@
 import thunk from 'redux-thunk'
-import logger from 'redux-logger'
+// import logger from 'redux-logger'
 import { persistStore, persistReducer } from 'redux-persist'
 
 import { createStore, applyMiddleware, compose } from 'redux'
 import storage from 'redux-persist/lib/storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import reducer from './reducers/'
-import envConfig from 'apiConfig'
 
-const { env } = envConfig
 // 配置 redux-devtool调试工具
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 // 配置中间件
 const middleware = [thunk]
-if (env === 'test') middleware.push(logger)
+// if (env === 'test') middleware.push(logger)
 // const store = createStore(reducer, composeEnhancers(
 //   applyMiddleware(...middleware)
 // ))

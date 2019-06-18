@@ -1,6 +1,3 @@
-/**
- * Created by luwenwe on 2017/10/11.
- */
 import axios from 'axios'
 // import { store } from '../store'
 
