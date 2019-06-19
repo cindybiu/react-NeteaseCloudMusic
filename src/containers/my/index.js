@@ -8,13 +8,21 @@ import styles from './index.scss'
 class My extends React.Component {
   state = {
     subcount: {},
-    isOpen: true
+    ownIsopen: true,
+    otherIsopen: true,
+    myPlaylist: []
   }
 
-  openPlayList = () => {
-    this.setState({
-      isOpen: !this.state.isOpen
-    })
+  openPlayList = (data) => {
+    if (data === 'own') {
+      this.setState({
+        ownIsopen: !this.state.ownIsopen
+      })
+    } else {
+      this.setState({
+        otherIsopen: !this.state.otherIsopen
+      })
+    }
   }
 
   renderTopList () {
@@ -68,15 +76,16 @@ class My extends React.Component {
     )
   }
 
-  renderMyPlaylist () {
-    const { subcount, isOpen } = this.state
+  renderMyPlaylist (data) { //创建的歌单
+    const { subcount, ownIsopen, otherIsopen, myPlaylist } = this.state
     return (
-      <div styleName='playList_wraper'>
+      <div styleName='item'>
         <div styleName='item_head'>
-          <div styleName='left' onClick={this.openPlayList}>
-            <IconFont cls={`${isOpen ?'iconarrow-down':'iconmore' }`}></IconFont>
-            <div styleName='title'>创建的歌单
-              <span  styleName='total'>{`(${subcount.createdPlaylistCount || 0 })`}</span>
+          <div styleName='left' onClick={this.openPlayList.bind(this, data)}>
+            { data === 'own'&&<IconFont cls={`${ownIsopen ?'iconarrow-down':'iconmore' }`}></IconFont>}
+            { data === 'other'&&<IconFont cls={`${otherIsopen ?'iconarrow-down':'iconmore' }`}></IconFont>}
+            <div styleName='title'>{data === 'own' ? '创建的歌单' : '收藏的歌单'}
+              <span  styleName='total'>{`(${data === 'own'?subcount.createdPlaylistCount || 0 : subcount.subPlaylistCount||0 })`}</span>
             </div>
           </div>
           <div>
@@ -84,22 +93,31 @@ class My extends React.Component {
           </div>
         </div>
 
-        <div styleName={`drawer_wraper ${isOpen? '' : 'close'}`}>
-          <div styleName='info_left'>
-            <div styleName='bg'>
-              <IconFont cls='iconaixin' styleName='icon'></IconFont>
-            </div>
-            <div>
-              <div styleName='title'>我喜欢的音乐</div>
-              <div styleName='total'>0首</div>
-            </div>
-          </div>
-          <div>
-            <button>
-              <IconFont cls='iconaixinfengxian1' ></IconFont>
-              <span>心动模式</span>
-            </button>
-          </div>
+        <div styleName={`drawer_wraper ${ data === 'own'? (ownIsopen ? '' :'ownClose'): (otherIsopen ? '' : 'otherClose')}`}>
+          { myPlaylist && myPlaylist.filter(item => data === 'own' ? !item.subscribed : item.subscribed).map((item, index) => {
+            return (
+              <div styleName='item' key={index}>
+                <div styleName='info_left'>
+                  <div styleName='bg'>
+                    <img src={item.coverImgUrl} alt=""/>
+                  </div>
+                  <div>
+                    <div styleName='title'>{item.name}</div>
+                    <div styleName='total'>{item.trackCount}首</div>
+                  </div>
+                </div>
+                <div>
+                  {item.specialType === 5 ?    
+                    <button>
+                      <IconFont cls='iconaixinfengxian1' ></IconFont>
+                      <span>心动模式</span>
+                    </button> : 
+                    <IconFont cls='iconmore1' styleName='moreIcon' ></IconFont>
+                  }
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
     )
@@ -112,7 +130,10 @@ class My extends React.Component {
         <div styleName='page_wraper'>
           {this.renderTopList()}
           {this.renderMenu()}
-          {this.renderMyPlaylist()}
+          <div styleName='playList_wraper'>
+            {this.renderMyPlaylist('own')}
+            {this.renderMyPlaylist('other')}
+          </div>
         </div>
       </Fragment>
     )
@@ -121,8 +142,10 @@ class My extends React.Component {
   async componentDidMount () {
     const { userInfo } = this.props
     const subcount = await request.getUserSubcount(userInfo.id)
+    const myPlaylist = await request.getUserPlaylist(userInfo.id)
     this.setState({
-      subcount
+      subcount,
+      myPlaylist: myPlaylist.playlist
     })
   }
 }

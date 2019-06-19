@@ -14,6 +14,7 @@ export const request = {
   getUserInfo,
   getUserSubcount,
   logout,
+  getUserPlaylist
 }
 
 async function getBanner () {
@@ -143,6 +144,25 @@ async function logout (id) {
       store.dispatch(actions.clearUserInfo())
       return res.data || {}
     }
+    return 0
+  } catch (err) {
+    return 0
+  }
+}
+
+
+async function getUserPlaylist (id) {
+  // 获取用户歌单
+  try {
+    const res = await axios({
+      url: api + 'user/playlist',
+      withCredentials: true, //关键
+      method: 'GET',
+      params: {
+        uid: id
+      }
+    })
+    if (res.data.code === 200) return res.data || {}
     return 0
   } catch (err) {
     return 0

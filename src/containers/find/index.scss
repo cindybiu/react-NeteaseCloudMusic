@@ -2,12 +2,25 @@
   display: flex;
   padding-bottom: 10px;
   border-bottom: 1px solid #f7f7f7;
+  justify-content: center;
+  .iconBg {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(to right, #ff5a4c, #ff1d12);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    margin-bottom: 9px;
+    .icon {
+      font-size: 30px;
+    }
+  }
   .item {
     margin: 5px 21px;
     position: relative;
-    img {
-      width: 100%;
-    }
+    text-align: center;
     .title {
       color: #575757;
       padding-top: 6px;
@@ -16,8 +29,8 @@
     }
     .date {
       position: absolute;
-      left: 50%;
-      top: 39%;
+      left: 47%;
+      top: 34%;
       transform: translateX(-50%) translateY(-50%);
       color: #fff;
       font-weight: bold;

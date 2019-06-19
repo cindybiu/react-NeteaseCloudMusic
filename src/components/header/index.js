@@ -37,7 +37,6 @@ class Header extends React.Component {
             type.map((item, index) => {
               return (
                 <Link to={`${item.url}`} key={index}> <div styleName={tabId===item.tabId? 'active':null}>{item.name}</div></Link>
-             
               )
             })
           }
@@ -55,7 +54,6 @@ class Header extends React.Component {
         { this.renderHeader() }
         <Drawer open={this.state.showDrawer} hideDrawer={this.hideDrawer}></Drawer>
       </Fragment>
-     
     )
   }
 }

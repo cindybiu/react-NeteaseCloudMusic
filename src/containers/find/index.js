@@ -3,15 +3,16 @@ import CSSModules from 'react-css-modules'
 import Header from 'components/header'
 import Slick from 'components/slick'
 import ListItem from 'components/listItem'
-import Iconfont from 'components/iconfont'
+import IconFont from 'components/iconfont'
 import CoverList from 'components/coverList'
 import styles from './index.scss'
 import { request } from 'apiRequest'
-import daily from 'images/daily.png'
-import playlist from 'images/playlist.png'
-import rank from 'images/rank.png'
 import moment from 'moment'
-import fm from 'images/fm.png'
+// import daily from 'images/daily.png'
+// import playlist from 'images/playlist.png'
+// import rank from 'images/rank.png'
+// 
+// import fm from 'images/fm.png'
 
 class Find extends React.Component {
   constructor (props) {
@@ -25,25 +26,27 @@ class Find extends React.Component {
   }
 
   renderMenu () {
+    const list = [
+      { cls: 'iconcalendar-blank', title: '每日推荐'},
+      { cls: 'iconic_library_music', title: '歌单'},
+      { cls: 'iconic_ranking', title: '排行榜'},
+      { cls: 'iconradio', title: '电台'},
+    ]
     return (
       <div styleName='menu_wraper'>
-        <div styleName='item'>
-          <img src={daily} alt=""/>
-          <div styleName='title'>每日推荐</div>
-          <div styleName='date'>{moment().format('D')}</div>
-        </div>
-        <div styleName='item'>
-          <img src={playlist} alt=""/>
-          <div styleName='title'>歌单</div>
-        </div>
-        <div styleName='item'>
-          <img src={rank} alt=""/>
-          <div styleName='title'>排行榜</div>
-        </div>
-        <div styleName='item'>
-          <img src={fm} alt=""/>
-          <div styleName='title'>电台</div>
-        </div>
+        {
+          list.map((item, index) => {
+            return (
+              <div key={index} styleName='item'>
+                <div styleName='iconBg'>
+                  <IconFont cls={item.cls} styleName='icon'></IconFont>
+                  {item.title === '每日推荐' && <div styleName='date'>{moment().format('D')}</div>}
+                </div>
+                <div>{item.title}</div>
+              </div>
+            )
+          })
+        }
       </div>
     )
   }
@@ -77,7 +80,7 @@ class Find extends React.Component {
         <div styleName='sub_title'>新歌</div>
       </Fragment>
     )
-    const right = ( <button styleName='button'>歌单广场</button> )
+    const right = ( <button styleName='button'>更多新碟</button> )
     return (
       <div styleName='block_list_wraper'>
         <ListItem leftContent={left} rightContent={right}></ListItem>
@@ -99,10 +102,10 @@ class Find extends React.Component {
     const left = (
       <Fragment>
         <div styleName='title'>主播电台</div>
-        <Iconfont cls='iconmore' styleName='title'></Iconfont>
+        <IconFont cls='iconmore' styleName='title'></IconFont>
       </Fragment>
     )
-    const right = (<Iconfont cls='iconmore1' style={{fontSize: '19px'}}></Iconfont>)
+    const right = (<IconFont cls='iconmore1' style={{fontSize: '19px'}}></IconFont>)
     return (
       <div styleName='block_list_wraper'>
         <ListItem leftContent={left} rightContent={right}></ListItem>
