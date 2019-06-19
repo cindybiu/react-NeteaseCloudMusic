@@ -2,20 +2,23 @@
   width: 100%;
   background: #ffffff;
   color: #8597A1;
-  line-height: 50px;
+  display: flex;
+  align-items: center;
   padding: 0 16px;
   position: fixed;
   z-index: 99;
+  justify-content: space-between;
+  height: 55px;
 .title{
-  padding-left: 10px;
+  padding-left: 12px;
   display: inline-block;
   color: #000;
   font-size: 17px;
 }
   &-left,
   &-right {
-    width: 50%;
-    display: inline-block;
+    display: flex;
+    align-items: center;
   }
 
   &-left {

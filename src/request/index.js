@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { store } from '../store'
 import { actions } from '../actions/'
-const api = 'http://localhost:3000/'
+const api = 'http://192.168.31.117:3000/'
 
 // eslint-disable-next-line no-unused-vars
 
@@ -14,7 +14,8 @@ export const request = {
   getUserInfo,
   getUserSubcount,
   logout,
-  getUserPlaylist
+  getUserPlaylist,
+  getPlaylistDetail
 }
 
 async function getBanner () {
@@ -168,3 +169,24 @@ async function getUserPlaylist (id) {
     return 0
   }
 }
+
+async function getPlaylistDetail (id) {
+  // 获取歌单详情
+  try {
+    const res = await axios({
+      url: api + 'playlist/detail',
+      withCredentials: true, //关键
+      method: 'GET',
+      params: {
+        id: id
+      }
+    })
+    if (res.data.code === 200) return res.data || {}
+    return 0
+  } catch (err) {
+    return 0
+  }
+}
+
+
+

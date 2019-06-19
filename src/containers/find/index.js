@@ -53,6 +53,7 @@ class Find extends React.Component {
 
   renderRecommendSongs () {
     const { recommendSongs } = this.state
+    const { history } = this.props
     const left = ( <div styleName='title'>推荐歌单</div> )
     const right = ( <button styleName='button'>歌单广场</button> )
     return (
@@ -62,7 +63,7 @@ class Find extends React.Component {
           {
             recommendSongs && recommendSongs.slice(0, 6).map((item, index) => {
               return (
-                <CoverList data={item} key={index}></CoverList>
+                <CoverList data={item} key={index} onClick={() => history.push(`/playlist/detail/${item.id}`)}></CoverList>
               )
             })
           }

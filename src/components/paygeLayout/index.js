@@ -20,7 +20,7 @@ class PaygeLayout extends React.PureComponent {
       leftIcon, //左侧图标
       leftClick, //左侧点击事件
       customStyles = {},
-      headerCls = ''
+      headerStyles = {}
     } = this.props
     const { titleContent } = headerProps
     const stys = !showHeader ? {...customStyles, paddingTop: 0} : customStyles
@@ -28,7 +28,7 @@ class PaygeLayout extends React.PureComponent {
       <Fragment>
         {showHeader && (
           <Header
-            cls={headerCls}
+            headerStyles={headerStyles}
             leftClick={leftClick}
             leftIcon={leftIcon}
             showLeft={showLeft}

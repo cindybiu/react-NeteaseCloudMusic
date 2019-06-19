@@ -18,7 +18,7 @@ class CoverList extends React.Component {
   render () {
     const { data } = this.props
     return (
-      <div styleName='item'>
+      <div styleName='item' onClick={this.props.onClick}>
         <img styleName='columnImg' src={data.picUrl} alt=""/>
         {
           data.playCount && 

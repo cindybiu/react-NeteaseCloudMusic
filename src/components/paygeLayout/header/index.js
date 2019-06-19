@@ -17,14 +17,14 @@ class Header extends React.Component {
 
   render () {
     const {
-      cls,
+      headerStyles,
       leftContent = HeaderLeft,
       titleContent,
       rightContent
     } = this.props
 
     return (
-      <div className={`${cls}`} styleName="header">
+      <div style={headerStyles} styleName="header">
         <div styleName="header-left">
           { this.renderHeaderContent(leftContent) }
           <div styleName="title">

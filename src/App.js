@@ -16,6 +16,7 @@ const Find = Loadable({loader: () => import('./containers/find'), ...loadableDef
 const My = Loadable({loader: () => import('./containers/my'), ...loadableDefalutConfig})
 const Friends = Loadable({loader: () => import('./containers/friends'), ...loadableDefalutConfig})
 const Video = Loadable({loader: () => import('./containers/video'), ...loadableDefalutConfig})
+const PlaylistDetail = Loadable({loader: () => import('./pages/playlist/detail'), ...loadableDefalutConfig})
 class App extends Component {
 
   componentWillMount () {
@@ -41,6 +42,7 @@ class App extends Component {
             <Route exact path="/video" component={Video} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/loginOut" component={LoginOut} />
+            <Route exact path="/playlist/detail/:id" component={PlaylistDetail} />
           </Switch>
         </Router>
       </div>
