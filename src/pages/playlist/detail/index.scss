@@ -26,15 +26,17 @@
       }
     }
     .right {
-      padding: 5px 10px;
+      padding: 0px 10px;
       color: #cacaca;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      width: 230px;
+      height: 100px;
       .title {
         font-size: 16px;
         color: #fff;
-        padding-bottom: 12px;
+        padding-bottom: 10px;
       }
       .avatar {
         display: flex;
@@ -63,7 +65,7 @@
   .infoButtom {
     display: flex;
     justify-content: space-around;
-    padding: 20px 20px 50px 20px;
+    padding: 10px 20px 50px 20px;
     color: #fff;
     .icon {
       font-size: 18px;
@@ -75,10 +77,76 @@
   }
 }
 
-
-.playlist_wraper{
+.playlist_wraper {
   background: #fff;
   height: 100%;
   margin-top: -35px;
   border-radius: 20px 20px;
+  padding: 10px 15px;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    .left {
+      display: flex;
+      align-items: center;
+    }
+    .icon {
+      font-size: 25px;
+      color: #575757;
+      padding-right: 10px;
+      padding-left: 0px;
+    }
+    .title {
+      font-size: 16px;
+      span {
+        color: #999;
+        font-size: 14px;
+      }
+    }
+    button {
+      background: #ff4342;
+      border: none;
+      color: #fff;
+      border-radius: 20px;
+      padding: 10px 15px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      .icon {
+        font-size: 12px;
+        padding-right: 4px;
+        color: #fff;
+      }
+    }
+  }
+
+  .songsList {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+    color: #999;
+    font-size: 16px;
+    .middle {
+      width: 220px;
+      color: #222;
+    }
+    .name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .singer {
+      color: #999;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .icon {
+      font-size: 22px;
+      color: #c3c3c3;
+      padding-left: 10px;
+    }
+  }
 }

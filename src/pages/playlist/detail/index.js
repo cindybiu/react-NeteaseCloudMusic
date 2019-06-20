@@ -14,6 +14,9 @@ class PlaylistDetail extends React.Component {
     playlistInfo: {}
   }
 
+  bindScroll (e) {
+    console.log(1111)
+  }
   renderInfo () { // 歌单详情页上半部分
     const { playlistInfo } = this.state
     const button = [
@@ -55,8 +58,37 @@ class PlaylistDetail extends React.Component {
   }
 
   renderPlaylist () { // 歌单详情页播放列表
+    const { playlistInfo } = this.state
     return (
-      <div styleName='playlist_wraper'></div>
+      <div styleName='playlist_wraper'>
+        <div styleName='header'>
+          <div styleName='left'>
+            <IconFont cls='iconbofang2' styleName='icon'></IconFont>
+            <div styleName='title'>全部播放<span>(共{playlistInfo.trackCount}首)</span></div>
+          </div>
+          <div>
+            <button>
+              <IconFont cls='icontianjia' styleName='icon'></IconFont>
+              收藏({playlistInfo.subscribedCount})
+            </button>
+          </div>
+        </div>
+        { playlistInfo.tracks && playlistInfo.tracks.map((item, index) => {
+          return (
+            <div styleName='songsList' key={index}>
+              <div>{index+1}</div>
+              <div styleName='middle'>
+                <div styleName='name'>{item.name}</div>
+                <div styleName='singer'>{item.ar[0].name}-{item.al.name}</div>
+              </div>
+              <div>
+                <IconFont cls='iconplay' styleName='icon'></IconFont>
+                <IconFont cls='iconmore1' styleName='icon'></IconFont>
+              </div>
+            </div>
+          )
+        })}
+      </div>
     )
   }
 
@@ -83,6 +115,7 @@ class PlaylistDetail extends React.Component {
   }
 
   async componentDidMount () {
+    window.addEventListener('scroll', this.bindScroll)
     const playlistInfo = await request.getPlaylistDetail(this.props.match.params.id)
     this.setState({
       playlistInfo: playlistInfo.playlist
