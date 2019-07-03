@@ -7,9 +7,18 @@ class Vidoe extends React.Component {
     return (
       <Fragment>
         <Header tabId={3}/>
-        <div style={{paddingTop: '55px'}}>Vidoe</div>
+        <div style={{paddingTop: '55px', background: '#eee'}}>
+          <div style={{height: '1000px'}}> Vidoe</div>
+        </div>
       </Fragment>
     )
+  }
+  clickHandler () {
+    console.log('11111111')
+  }
+
+  async componentDidMount () {
+    window.addEventListener('scroll', this.clickHandler)
   }
 }
 

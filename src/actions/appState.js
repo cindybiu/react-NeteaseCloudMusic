@@ -7,9 +7,12 @@ export const appStateActions = {
   hideLoading,
   setUserInfo,
   clearUserInfo,
-
   register,
   isLoading,
+  showPlayer,
+  changeSong,
+  removeSong,
+  setSongs
 }
 
 function showLoading (message) {
@@ -133,6 +136,41 @@ function isLoading (data) {
     dispatch({
       type: 'IS_LOADING',
       data,
+    })
+  }
+}
+
+
+function showPlayer (showStatus) { //显示或隐藏播放页面
+  return dispatch => {
+    dispatch({
+      type: 'SHOW_PLAYER',
+      showStatus,
+    })
+  }
+}
+
+function changeSong (song) { //修改当前歌曲
+  return dispatch => {
+    dispatch({
+      type: 'CHANGE_SONG',
+      song,
+    })
+  }
+}
+function removeSong (id) { //从歌曲列表中移除歌曲
+  return dispatch => {
+    dispatch({
+      type: 'REMOVE_SONG_FROM_LIST',
+      id,
+    })
+  }
+}
+function setSongs (songs) { //设置歌曲列表
+  return dispatch => {
+    dispatch({
+      type: 'SET_SONGS',
+      songs,
     })
   }
 }
