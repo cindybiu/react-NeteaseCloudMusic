@@ -12,24 +12,51 @@ import styles from './index.scss'
 import { request } from 'apiRequest'
 import { actions } from 'actions'
 class PlaylistDetail extends React.Component {
-  state = {
-    playlistInfo: {}
+  constructor (props) {
+    super()
+    this.state = {
+      playlistInfo: {},
+      songs: []
+    }
+    // this.songs = []
+  }
+ 
+
+
+  filterMusic = (data) => { // 对接口数据进行处理
+    const music = {
+      duration: data.dt / 1000,
+      id: data.id,
+      img: data.al.picUrl,
+      name: data.name,
+      singer: data.ar[0].name,
+      url: `https://music.163.com/song/media/outer/url?id=${data.id}.mp3`
+    }
+    return music
   }
 
   palyMusic = async (item) => {
     const { setSongs, changeCurrentSong } = this.props
-    const songUrl = await request.getSongUrl(item.id)
-    const song = {
-      duration: item.dt / 1000,
-      id: item.id,
-      img: item.al.picUrl,
-      name: item.name,
-      singer: item.ar[0].name,
-      url: songUrl
-    }
+    const song = this.filterMusic(item)
     setSongs([song])
     changeCurrentSong(song)
-    console.log(song)
+  }
+
+  playAll = () => {
+    console.log('------播放全部')
+    const { tracks } = this.state.playlistInfo
+    const { setSongs, changeCurrentSong, showMusicPlayer } = this.props
+    let songs = [] // 数据处理过后的全部歌曲
+    tracks.map(item => {
+      const data = this.filterMusic(item)
+      return  songs.push(data) 
+    })
+    if ( songs.length > 0 ) {
+      // 添加播放歌曲列表
+      setSongs(songs)
+      changeCurrentSong(songs[0])
+      showMusicPlayer(true)
+    }
   }
 
   renderInfo () { // 歌单详情页上半部分
@@ -79,7 +106,7 @@ class PlaylistDetail extends React.Component {
         <div styleName='header'>
           <div styleName='left'>
             <IconFont cls='iconbofang2' styleName='icon'></IconFont>
-            <div styleName='title'>全部播放<span>(共{playlistInfo.trackCount}首)</span></div>
+            <div styleName='title' onClick={this.playAll}>全部播放<span>(共{playlistInfo.trackCount}首)</span></div>
           </div>
           <div>
             <button>
@@ -153,6 +180,7 @@ function mapDispatchToProps (dispatch) {
   return {
     setSongs: (data) => dispatch(actions.setSongs(data)),
     changeCurrentSong: (data) => dispatch(actions.changeSong(data)),
+    showMusicPlayer: (data) => dispatch(actions.showPlayer(data))
   }
 }
 

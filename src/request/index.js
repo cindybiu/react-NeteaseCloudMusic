@@ -16,8 +16,6 @@ export const request = {
   logout,
   getUserPlaylist,
   getPlaylistDetail,
-  // getSongDetail,
-  getSongUrl
 }
 
 async function getBanner () {
@@ -189,43 +187,3 @@ async function getPlaylistDetail (id) {
     return 0
   }
 }
-
-
-
-// async function getSongDetail (id) {
-//   // 获取歌曲详情
-//   try {
-//     const res = await axios({
-//       url: api + 'song/detail',
-//       withCredentials: true, //关键
-//       method: 'GET',
-//       params: {
-//         ids: id
-//       }
-//     })
-//     if (res.data.code === 200) return res.data.songs[0] || {}
-//     return 0
-//   } catch (err) {
-//     return 0
-//   }
-// }
-async function getSongUrl (id) {
-  // 获取歌曲url
-  try {
-    const res = await axios({
-      url: api + 'song/url',
-      withCredentials: true, //关键
-      method: 'GET',
-      params: {
-        id: id
-      }
-    })
-    if (res.data.code === 200) return res.data.data[0].url|| {}
-    return 0
-  } catch (err) {
-    return 0
-  }
-}
-
-
-

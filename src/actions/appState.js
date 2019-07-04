@@ -12,7 +12,7 @@ export const appStateActions = {
   showPlayer,
   changeSong,
   removeSong,
-  setSongs
+  setSongs,
 }
 
 function showLoading (message) {

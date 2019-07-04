@@ -11,6 +11,8 @@ import Toaster from 'components/toaster'
 import Login from './pages/login'
 import LoginOut from './pages/login/loginOut'
 
+import Player from './pages/play'
+
 const loadableDefalutConfig = {loading: Loading, delay: 4000, timeout: 10000}
 const Find = Loadable({loader: () => import('./containers/find'), ...loadableDefalutConfig})
 const My = Loadable({loader: () => import('./containers/my'), ...loadableDefalutConfig})
@@ -43,8 +45,11 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/loginOut" component={LoginOut} />
             <Route exact path="/playlist/detail/:id" component={PlaylistDetail} />
+            <Route exact path="/play" component={Player} />
+            
           </Switch>
         </Router>
+        {/* <Player/> */}
       </div>
     )
   }
