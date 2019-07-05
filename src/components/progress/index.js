@@ -14,8 +14,7 @@ class Progress extends React.Component {
   render () {
     //进度值：范围 0-1
     let {progress, disableButton}  = this.props
-    // console.log(progress, disableButton)
-
+    if (!progress) progress = 0
     //按钮left值
     let progressButtonOffsetLeft = 0
     if (this.progressBarWidth) {
@@ -38,7 +37,7 @@ class Progress extends React.Component {
     this.progressBarWidth = progressBarDOM.offsetWidth
 
     let { disableButton, disableDrag, onDragStart, onDragEnd, onDrag } = this.props
-    if (disableButton !== true && disableDrag !== true) {
+    if (!disableButton && !disableDrag ) {
       //触摸开始位置
       let downX = 0
       //按钮left值
@@ -82,10 +81,10 @@ class Progress extends React.Component {
     }
   }
   componentDidUpdate () {
-    //组件更新后重新获取进度条总宽度
-    if (!this.progressBarWidth) {
-      this.progressBarWidth = ReactDOM.findDOMNode(this.refs.progressBar).offsetWidth
-    }
+    // if (! this.progressBarWidth ) {
+    //   this.progressBarWidth = ReactDOM.findDOMNode(this.refs.progressBar).offsetWidth
+    // }
+    this.progressBarWidth = ReactDOM.findDOMNode(this.refs.progressBar).offsetWidth
   }
 }
 

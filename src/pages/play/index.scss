@@ -1,5 +1,6 @@
 .player-container{
-  height: 100%;
+  // height: 100%;
+  position: relative;
 }
 .player {
   position: fixed;
@@ -9,8 +10,8 @@
   width: 100%;
   height: 100%;
   color: #ffffff;
-  background-color: #212121;
-  // display: none;
+  background-color: #636363;
+  display: none;
   transform-origin: 0 bottom;
 
   &.player-rotate-enter {
@@ -63,7 +64,7 @@
     background-position: center center;
     background-size: cover;
     filter: blur(20px);
-    opacity: 0.6;
+    opacity: 0.4;
     transform: translate3d(0, 0, 0);
     transition: background-image 0.3s;
   }
@@ -108,6 +109,16 @@
       height: 260px;
       border-radius: 50%;
       border: 8px solid rgba(221, 221, 221, 0.3);
+      .rotate{
+        -webkit-transition-property: -webkit-transform;
+        -webkit-transition-duration: 1s;
+        -moz-transition-property: -moz-transform;
+        -moz-transition-duration: 1s;
+        -webkit-animation: rotate 7s linear infinite;
+        -moz-animation: rotate 7s linear infinite;
+        -o-animation: rotate 7s linear infinite;
+        animation: rotate 7s linear infinite;
+      }
       img {
         width: 100%;
         height: 100%;
@@ -150,24 +161,25 @@
       .play-wrapper {
         display: flex;
         margin-top: 10px;
-        color: #ffd700;
-        font-size: 36px;
+        color: #fff;
         text-align: center;
         align-items: center;
         div {
           flex: 1;
         }
-        .play-button {
-          font-size: 45px;
-        }
-        .play-model-button {
-          text-align: left;
-          text-shadow: 0 0 3px #ffd700;
-        }
-        .play-list-button {
-          text-align: right;
-        }
       }
     }
   }
+}
+@-webkit-keyframes rotate{from{-webkit-transform: rotate(0deg)}
+to{-webkit-transform: rotate(360deg)}
+}
+@-moz-keyframes rotate{from{-moz-transform: rotate(0deg)}
+to{-moz-transform: rotate(359deg)}
+}
+@-o-keyframes rotate{from{-o-transform: rotate(0deg)}
+to{-o-transform: rotate(359deg)}
+}
+@keyframes rotate{from{transform: rotate(0deg)}
+to{transform: rotate(359deg)}
 }

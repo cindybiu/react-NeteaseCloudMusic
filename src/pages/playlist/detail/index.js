@@ -36,10 +36,11 @@ class PlaylistDetail extends React.Component {
   }
 
   palyMusic = async (item) => {
-    const { setSongs, changeCurrentSong } = this.props
+    const { setSongs, changeCurrentSong, showMusicPlayer } = this.props
     const song = this.filterMusic(item)
     setSongs([song])
     changeCurrentSong(song)
+    showMusicPlayer(true)
   }
 
   playAll = () => {
@@ -162,10 +163,13 @@ class PlaylistDetail extends React.Component {
   
   async componentDidMount () {
     window.addEventListener('scroll', this.clickHandler)
+    const { showLoading, hideLoading } = this.props
+    showLoading()
     const playlistInfo = await request.getPlaylistDetail(this.props.match.params.id)
     this.setState({
       playlistInfo: playlistInfo.playlist
     })
+    hideLoading()
   }
 }
 
@@ -180,7 +184,9 @@ function mapDispatchToProps (dispatch) {
   return {
     setSongs: (data) => dispatch(actions.setSongs(data)),
     changeCurrentSong: (data) => dispatch(actions.changeSong(data)),
-    showMusicPlayer: (data) => dispatch(actions.showPlayer(data))
+    showMusicPlayer: (data) => dispatch(actions.showPlayer(data)),
+    showLoading: () => dispatch(actions.showLoading()),
+    hideLoading: () => dispatch(actions.hideLoading())
   }
 }
 

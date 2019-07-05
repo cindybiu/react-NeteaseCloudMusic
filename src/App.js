@@ -45,11 +45,10 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/loginOut" component={LoginOut} />
             <Route exact path="/playlist/detail/:id" component={PlaylistDetail} />
-            <Route exact path="/play" component={Player} />
-            
+            {/* <Route exact path="/play" component={Player} /> */}
           </Switch>
         </Router>
-        {/* <Player/> */}
+        <Player/>
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import CSSModules from 'react-css-modules'
 import Header from 'components/header'
+import { connect } from 'react-redux'
 import Slick from 'components/slick'
 import ListItem from 'components/listItem'
 import IconFont from 'components/iconfont'
@@ -8,6 +9,7 @@ import CoverList from 'components/coverList'
 import styles from './index.scss'
 import { request } from 'apiRequest'
 import moment from 'moment'
+import { actions } from 'actions'
 // import daily from 'images/daily.png'
 // import playlist from 'images/playlist.png'
 // import rank from 'images/rank.png'
@@ -139,6 +141,8 @@ class Find extends React.Component {
   }
 
   async componentDidMount () {
+    const { showLoading, hideLoading } = this.props
+    showLoading()
     const banners = await request.getBanner()
     const recommendSongs = await request.getPersonalized()
     const album = await request.getAlbum()
@@ -149,9 +153,16 @@ class Find extends React.Component {
       album: album.albums,
       djprogram: djprogram.result
     })
+    hideLoading()
   }
 }
 
+function mapDispatchToProps (dispatch) {
+  return {
+    showLoading: () => dispatch(actions.showLoading()),
+    hideLoading: () => dispatch(actions.hideLoading())
+  }
+}
 
 const Wrapper = CSSModules(Find, styles, {allowMultiple: true})
-export default Wrapper
+export default connect(null, mapDispatchToProps)(Wrapper)

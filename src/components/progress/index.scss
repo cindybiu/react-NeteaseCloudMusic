@@ -1,6 +1,6 @@
 .progress-bar {
   position: relative;
-  width: 100%;
+  width: 235px;
   height: 3px;
   background-color: rgba(0, 0, 0, 0.3);
   .progress,
@@ -12,17 +12,18 @@
   }
   .progress {
     z-index: 2;
-    background-color: #ffd700;
+    background-color: #d5d5d6;
   }
   .progress-button {
     width: 14px;
     height: 14px;
-    border: 2px solid #ffffff;
+    border: 2px solid #d5d5d6;
     border-radius: 50%;
     box-sizing: border-box;
-    background-color: #ffd700;
+    background-color: #d5d5d6;
     z-index: 3;
-    top: -6px;
     margin-left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
