@@ -1,0 +1,30 @@
+.miniPlayer-container {
+  height: 55px;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px -1px 3px #e6e6e6;
+  .left {
+    display: flex;
+    align-items: center;
+    .head-img {
+      width: 40px;
+      height: 40px;
+      img {
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+    .songInfo{
+      padding-left: 10px;
+      .song{
+        font-size: 14px;
+        color: #999;
+      }
+      .singer{
+        color: #888888
+      }
+    }
+  }
+}

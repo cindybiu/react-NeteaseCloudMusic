@@ -9,7 +9,10 @@ import play_bg from 'images/play_bg.jpg'
 import styles from './index.scss'
 import IconFont from 'components/iconfont'
 import Progress from 'components/progress'
+import MiniPlayer from './miniPlayer'
 import { actions } from 'actions'
+import { utils } from 'tools'
+
 class Play extends React.Component {
   constructor (props) {
     super(props)
@@ -29,23 +32,36 @@ class Play extends React.Component {
     this.currentIndex = 0
     this.isFirstPlay = true
     this.dragProgress = 0 //拖拽进度
+    this.palyModes = ['list', 'single', 'shuffle'] // 播放模式
+    this.palymodesIcon = {
+      'list': 'iconliebiaoxunhuan1',
+      'single': 'icondanquxunhuan1',
+      'shuffle': 'iconsuijibofang_'
+    }
   }
 
-  hidePlayer = () => { // 隐藏播放页面
+  /**
+   * 隐藏播放页面
+   */
+  hidePlayer = () => {
     this.props.showMusicPlayer(false)
   }
-
-  handleDrag = (progress) => { // 开始拖拽
+  /**
+   * 开始拖拽
+   */
+  handleDrag = (progress) => {
     this.dragProgress = progress
   }
-  
+  /**
+   * 歌曲图片旋转
+   */
   imgRotate = (boolean) => {
-    this.setState({
-      route: boolean
-    })
+    this.setState({ route: boolean })
   }
-
-  handleDragEnd = () => { // 结束拖拽
+  /**
+   * 结束拖拽
+   */
+  handleDragEnd = () => {
     let currentTime = this.audioDOM.duration * this.dragProgress
     this.setState({
       playProgress: this.dragProgress,
@@ -56,40 +72,100 @@ class Play extends React.Component {
       this.dragProgress = 0
     })
   }
-
-  playStatus = (boolean) => { // 播放状态控制
+  /**
+   * 播放状态控制
+   */
+  playStatus = (boolean) => {
     if (boolean) {
       this.audioDOM.play()
       this.imgRotate(true)
-      this.setState({
-        playStatus: true
-      })
+      this.setState({ playStatus: true })
     } else {
       this.audioDOM.pause()
       this.imgRotate(false)
-      this.setState({
-        playStatus: false
-      })
+      this.setState({ playStatus: false })
     }
   }
-
-  playOrPause = () => { // 暂停或播放
+  /**
+   * 暂停和播放
+   */
+  playOrPause = () => {
     this.audioDOM.paused ? this.playStatus(true) : this.playStatus(false) 
   }
-
+  /**
+   * 控制播放模式
+   */
+  changePlayMode = () => {
+    const { currentPlayMode } = this.state
+    if ( currentPlayMode === this.palyModes.length-1 ) {
+      this.setState({ currentPlayMode: 0 })
+    } else {
+      this.setState({  currentPlayMode: currentPlayMode+1})
+    }
+  }
+  /**
+   * 上一首
+   */
+  previous = () => {
+    const { playSongs, changeCurrentSong } = this.props
+    const { currentPlayMode } = this.state
+    let currentIndex = this.currentIndex
+    if (playSongs.length > 1) {
+      switch (currentPlayMode) {
+        case 0: // 列表播放
+          currentIndex === 0 ? currentIndex = playSongs.length - 1 : currentIndex = currentIndex - 1 
+          break
+        case 1: // 单曲循环
+          currentIndex = this.currentIndex
+          break
+        case 2: // 随机播放
+          let index = parseInt(Math.random() * playSongs.length, 10)
+          currentIndex = index
+          break
+        default: 
+          return
+      }
+      changeCurrentSong(playSongs[currentIndex])
+      this.currentIndex = currentIndex
+    }
+  }
+  /**
+   * 下一首
+   */
+  next = () => {
+    const { playSongs, changeCurrentSong } = this.props
+    const { currentPlayMode } = this.state
+    let currentIndex = this.currentIndex
+    if (playSongs.length > 1) {
+      switch (currentPlayMode) {
+        case 0: // 列表播放
+          currentIndex === playSongs.length - 1 ? currentIndex = 0 : currentIndex = currentIndex + 1 
+          break
+        case 1: // 单曲循环
+          currentIndex = this.currentIndex
+          break
+        case 2: // 随机播放
+          let index = parseInt(Math.random() * playSongs.length, 10)
+          currentIndex = index
+          break
+        default: 
+          return
+      }
+      changeCurrentSong(playSongs[currentIndex])
+      this.currentIndex = currentIndex
+    }
+  }
   render () {
     const { route } = this.state
-    this.currentIndex = this.props.currentIndex
-    let song = new Object(this.currentSong)
+    let song = Object.assign(this.currentSong)
     let playBg = song.img ? song.img : play_bg
     let playButtonClass = this.state.playStatus ? "iconzanting1" : "iconbofang4"
     song.playStatus = this.state.playStatus
-
     const iconData = [
-      {cls: 'iconbianjiqiwuxuliebiao', fontSize: '23px'},
+      {cls: this.palymodesIcon[this.palyModes[this.state.currentPlayMode]], fontSize: '23px', click: this.changePlayMode},
       {cls: 'iconshangyishoushangyige1', fontSize: '23px', click: this.previous},
       {cls: playButtonClass, fontSize: '40px', click: this.playOrPause},
-      {cls: 'iconxiayigexiayishou1', fontSize: '23px'},
+      {cls: 'iconxiayigexiayishou1', fontSize: '23px', click: this.next},
       {cls: 'iconbianjiqiwuxuliebiao', fontSize: '23px'},
     ]
     return (
@@ -123,11 +199,11 @@ class Play extends React.Component {
 
               <div styleName="progress-wrapper"> 
                 {/* 时间进度条 */}
-                <span styleName="current-time">{getTime(this.state.currentTime)}</span>
+                <span styleName="current-time">{utils.getTime(this.state.currentTime)}</span>
                 <div styleName="play-progress">
                   <Progress progress={this.state.playProgress} onDrag={this.handleDrag} onDragEnd={this.handleDragEnd} /> 
                 </div>
-                <span styleName="total-time">{getTime(song.duration)}</span>
+                <span styleName="total-time">{utils.getTime(song.duration)}</span>
               </div>
 
               <div styleName='play-wrapper'>
@@ -146,6 +222,8 @@ class Play extends React.Component {
           <div styleName="player-bg" ref="playerBg" />
           <audio ref="audio"></audio>
         </div>
+
+        <MiniPlayer></MiniPlayer>
       </div>
     )
   }
@@ -174,6 +252,24 @@ class Play extends React.Component {
         })
       }
     }, false)
+
+    this.audioDOM.addEventListener("ended", () => { 
+      const { playSongs, } = this.props
+      const { currentPlayMode } = this.state
+      if ( playSongs.length > 1 ) {
+        this.next()
+      } else {
+        switch ( currentPlayMode ) {
+          case 0: //继续播放当前歌曲
+            this.audioDOM.play()
+            break 
+          default: // 暂停
+            this.playStatus(false)
+        }
+      }
+    }, false)
+
+    this.audioDOM.addEventListener('error', () => { alert("加载歌曲出错！") }, false)
   }
 
   componentDidUpdate () {
@@ -183,23 +279,6 @@ class Play extends React.Component {
       this.isFirstPlay = false
     }
   }
-}
-
-
-function getTime (second) {
-  second = Math.floor(second)
-  let minute = Math.floor(second / 60)
-  second = second - minute * 60
-  return minute  + ":" + formatTime(second)
-}
-function formatTime (time) {
-  let timeStr = "00"
-  if (time > 0 && time < 10) {
-    timeStr = "0" + time
-  } else if (time >= 10) {
-    timeStr = time
-  }
-  return timeStr
 }
 
 function mapStateToProps (state) {
@@ -212,6 +291,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     showMusicPlayer: (data) => dispatch(actions.showPlayer(data)),
+    changeCurrentSong: (data) => dispatch(actions.changeSong(data)),
   }
 }
 
