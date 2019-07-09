@@ -10,6 +10,8 @@ import styles from './index.scss'
 import IconFont from 'components/iconfont'
 import Progress from 'components/progress'
 import MiniPlayer from './miniPlayer'
+import BottomModal from 'components/bottomModal'
+import ListItem from 'components/listItem'
 import { actions } from 'actions'
 import { utils } from 'tools'
 
@@ -21,14 +23,10 @@ class Play extends React.Component {
       playProgress: 0,
       playStatus: false,
       currentPlayMode: 0,
-      route: false //是否旋转
+      route: false, //是否旋转
+      isShowMOdal: false
     }
-    this.currentSong={
-      img: '',
-      name: '',
-      id: 0,
-      scr: ''
-    }
+    this.currentSong = { img: '', name: '', id: 0, scr: '' }
     this.currentIndex = 0
     this.isFirstPlay = true
     this.dragProgress = 0 //拖拽进度
@@ -39,7 +37,12 @@ class Play extends React.Component {
       'shuffle': 'iconsuijibofang_'
     }
   }
-
+  /**
+   * 显示播放器
+   */
+  showPlayer = () => {
+    this.props.showMusicPlayer(true)
+  }
   /**
    * 隐藏播放页面
    */
@@ -156,13 +159,26 @@ class Play extends React.Component {
     }
   }
   render () {
-    const { route } = this.state
+    const { route, playStatus, currentPlayMode, currentTime, playProgress } = this.state
+    const { currentSong, showStatus, playSongs } = this.props
+    console.log(playSongs)
+    if (currentSong && currentSong.url) {
+      //当前歌曲发发生变化
+      if (this.currentSong.id !== currentSong.id) {
+        this.currentSong = currentSong
+        if (this.audioDOM) {
+          this.audioDOM.src = this.currentSong.url
+          //加载资源，ios需要调用此方法
+          this.audioDOM.load()
+        }
+      }
+    }
     let song = Object.assign(this.currentSong)
     let playBg = song.img ? song.img : play_bg
-    let playButtonClass = this.state.playStatus ? "iconzanting1" : "iconbofang4"
-    song.playStatus = this.state.playStatus
+    let playButtonClass = playStatus ? "iconzanting1" : "iconbofang4"
+    song.playStatus = playStatus
     const iconData = [
-      {cls: this.palymodesIcon[this.palyModes[this.state.currentPlayMode]], fontSize: '23px', click: this.changePlayMode},
+      {cls: this.palymodesIcon[this.palyModes[currentPlayMode]], fontSize: '23px', click: this.changePlayMode},
       {cls: 'iconshangyishoushangyige1', fontSize: '23px', click: this.previous},
       {cls: playButtonClass, fontSize: '40px', click: this.playOrPause},
       {cls: 'iconxiayigexiayishou1', fontSize: '23px', click: this.next},
@@ -170,7 +186,7 @@ class Play extends React.Component {
     ]
     return (
       <div styleName="player-container">
-        <div styleName="player" ref="player" style={{display: this.props.showStatus ? 'block' : 'none'}}>
+        <div styleName="player" ref="player" style={{display: showStatus ? 'block' : 'none'}}>
           <div styleName='header'>
             <span styleName="header-back" onClick={this.hidePlayer}>
               <IconFont cls='iconfanhui'></IconFont>
@@ -199,9 +215,9 @@ class Play extends React.Component {
 
               <div styleName="progress-wrapper"> 
                 {/* 时间进度条 */}
-                <span styleName="current-time">{utils.getTime(this.state.currentTime)}</span>
+                <span styleName="current-time">{utils.getTime(currentTime)}</span>
                 <div styleName="play-progress">
-                  <Progress progress={this.state.playProgress} onDrag={this.handleDrag} onDragEnd={this.handleDragEnd} /> 
+                  <Progress progress={playProgress} onDrag={this.handleDrag} onDragEnd={this.handleDragEnd} /> 
                 </div>
                 <span styleName="total-time">{utils.getTime(song.duration)}</span>
               </div>
@@ -222,30 +238,45 @@ class Play extends React.Component {
           <div styleName="player-bg" ref="playerBg" />
           <audio ref="audio"></audio>
         </div>
-
-        <MiniPlayer></MiniPlayer>
+        <BottomModal>
+          <div styleName='bottomModal-warapper'>
+            <div styleName='top'>
+              <div styleName='title'>播放列表</div>
+              <IconFont cls='iconguanbi'></IconFont>
+            </div>
+            <div>
+              {playSongs.map((item, index) => {
+                console.log(item)
+                return (
+                  <ListItem key={index} leftContent='11111111' rightContent='222222222'></ListItem>
+                )
+              })}
+            </div>
+          </div>
+        </BottomModal>
+        <MiniPlayer 
+          song={song} 
+          progress={playProgress} 
+          playOrPause={this.playOrPause} 
+          playStatus={playStatus}
+          showPlayer={this.showPlayer}
+        />
       </div>
     )
   }
 
   componentDidMount () {
-    this.playerBgDOM = ReactDOM.findDOMNode(this.refs.playerBg)
+    const { playSongs, } = this.props
+    const { playStatus, currentPlayMode } = this.state
     this.audioDOM = ReactDOM.findDOMNode(this.refs.audio)
-    if (this.props.currentSong && this.props.currentSong.url) {
-      //当前歌曲发发生变化
-      if (this.currentSong.id !== this.props.currentSong.id) {
-        this.currentSong = this.props.currentSong
-        this.audioDOM.src = this.currentSong.url
-        //加载资源，ios需要调用此方法
-        this.audioDOM.load()
-      }
-    }
+    this.playerBgDOM = ReactDOM.findDOMNode(this.refs.playerBg)
+ 
     this.audioDOM.addEventListener('canplay', () => {
       this.playStatus(true)
     }, false)
 
     this.audioDOM.addEventListener('timeupdate', () => {
-      if (this.state.playStatus === true) {
+      if (playStatus === true) {
         this.setState({
           playProgress: this.audioDOM.currentTime / this.audioDOM.duration,
           currentTime: this.audioDOM.currentTime
@@ -254,8 +285,6 @@ class Play extends React.Component {
     }, false)
 
     this.audioDOM.addEventListener("ended", () => { 
-      const { playSongs, } = this.props
-      const { currentPlayMode } = this.state
       if ( playSongs.length > 1 ) {
         this.next()
       } else {

@@ -12,6 +12,7 @@ class Progress extends React.Component {
   state = {}
 
   render () {
+    const { style={} } = this.props
     //进度值：范围 0-1
     let {progress, disableButton}  = this.props
     if (!progress) progress = 0
@@ -20,9 +21,8 @@ class Progress extends React.Component {
     if (this.progressBarWidth) {
       progressButtonOffsetLeft = progress * this.progressBarWidth
     }
-
     return (
-      <div styleName='progress-bar' ref="progressBar">
+      <div styleName={`progress-bar`} style={style} ref="progressBar">
         <div styleName='progress' style={{width: `${progress * 100}%`}} ref="progress"></div>
         { !disableButton && <div styleName='progress-button' style={{left: progressButtonOffsetLeft}} ref="progressBtn"></div>}
        
